@@ -1,0 +1,46 @@
+# Drupal with PostgreSQL
+
+# During initial Drupal setup,
+# Database type: PostgreSQL
+# Database name: postgres
+# Database username: postgres
+# Database password: example
+# ADVANCED OPTIONS; Database host: postgres
+
+version: '3.1'
+
+services:
+
+  drupal:
+    image: drupal:8-apache
+    ports:
+      - 8080:80
+    networks:
+      - user_defined
+    volumes:
+      - modules:/var/www/html/modules
+      - profiles:/var/www/html/profiles
+      - themes:/var/www/html/themes
+      - sites:/var/www/html/sites
+    restart: always
+
+  postgres:
+    image: postgres:10
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks:
+    - user_defined
+    environment:
+      POSTGRES_PASSWORD: example
+    restart: always
+
+volumes:
+  data:
+  modules:
+  profiles:
+  themes:
+  sites:
+
+networks :
+  user_defined:
+    driver: bridge
